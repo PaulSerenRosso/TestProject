@@ -8,17 +8,17 @@
       "Bash(git diff *)",
       "Bash(git log   *)",
       "Bash(git add *)",
-     
-      "Bash(git switch -c *)",
-      "Bash(git checkout -b *)"
-    ],
-    "ask": [
       "Bash(git commit *)",
-      "Bash(gh pr create *)",   
+      "Bash(git switch -c *)",
+      "Bash(git checkout -b *)",      
       "Bash(git push -u origin feature/*)",
       "Bash(git push -u   origin fix/*)",
       "Bash(git push -u origin docs/*)",
-      "Bash(git push -u      origin spike/*)",
+      "Bash(git push -u      origin spike/*)"
+    ],
+    "ask": [
+      
+      "Bash(gh pr create *)",
       "Bash(git push *)"
     ],
     "deny": [
