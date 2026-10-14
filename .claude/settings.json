@@ -17,9 +17,7 @@
       "Bash(git push -u      origin spike/*)"
     ],
     "ask": [
-      
-      "Bash(gh pr create *)",
-      "Bash(git push *)"
+      "Bash(gh pr create *)"
     ],
     "deny": [
       "Bash(git push * main)",
