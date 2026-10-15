@@ -46,7 +46,7 @@ The goal is pre-lab rehearsal, not replacing the lab.
 - Pre-lab rehearsal; safe failure of a hazardous step; per-student parameter variants.
 
 ## Sources (accessed 2026-10-15)
-See `learning-and-practice-overview.md`.
+See `../../notes/learning-and-practice-overview.md`.
 
 ## Open questions
 - Where do students do the pre-lab (home, school computer room, class)? Decides whether VR can work at all.
