@@ -1,6 +1,6 @@
 # Developer Workflow
 
-Status: Active, 2026-10-14. For the `unity-developer` agent and the owner. One task at a time.
+Status: Active, updated 2026-10-15 for Solo Tutor (git section 3 unchanged). For the `unity-developer` agent and the owner. One task at a time.
 
 ## 1. Procedure per task
 
@@ -14,12 +14,13 @@ Status: Active, 2026-10-14. For the `unity-developer` agent and the owner. One t
 | 6. Commit | Section 3 | |
 
 ## 2. Technical definition of done (on top of PM quality gates)
-- Compiles; Console has 0 errors and no new warnings.
-- New or changed `Core` behavior has EditMode tests; the whole EditMode suite is green.
-- No layer rule violated (asmdef references match `architecture-overview.md` section 4).
+- Compiles; Console has 0 errors and no new warnings. Server code: `dotnet build` has 0 warnings-as-errors.
+- New or changed `Core` behavior has tests; the whole Core suite is green in Unity and by `dotnet test` (once `server/` exists); server changes have API tests.
+- No layer rule violated (asmdef references match `architecture-overview.md` section 5); no WebGL-forbidden API in shared assemblies (`coding-standards.md` section 8).
 - Naming, templates and patterns follow the docs; no unused code; no commented-out code.
-- No secrets, no absolute local paths, no `.env` content in the diff.
-- New JSON data validates and is covered by the golden-experiment or catalog tests.
+- No secrets, no absolute local paths, no `.env` content in the diff; no student text logged or stored (ADR-006).
+- New JSON content validates and is covered by the content, golden-seed or property tests.
+- WebGL-affecting changes: say whether a WebGL build was tested in a browser, or "not verified in a browser".
 - Tech-spec checklist ticked; deviations reported (section 7).
 - Not verified items listed honestly ("not verified on device").
 
@@ -39,7 +40,7 @@ Status: Active, 2026-10-14. For the `unity-developer` agent and the owner. One t
 | 2 | Protect `main` on GitHub (require PR, no direct push) | To do |
 | 3 | `.gitignore`: confirm `Library/ Temp/ Logs/ UserSettings/ Builds/`; add `.env*`, `*.local.json`, `secrets/`. Enable GitHub push protection when the repo goes public. | To do |
 | 4 | `tools/hooks/pre-push` (first Core task): refuse `main`, secret scan; EditMode run added once Core tests exist | To do |
-| 5 | Align agent definitions: `unity-developer` Git section follows this document; the other three agents get the same shared Git block (below) | To do |
+| 5 | Align agent definitions: `unity-developer` Git section follows this document; the other agents get the same shared Git block (below). Also update `unity-developer` for Solo Tutor: new doc paths, `Tutor.*` prefix, server work (`dotnet test`) | To do |
 
 Shared Git block for every agent definition (replaces any "commit only on request" wording):
 ```
@@ -52,17 +53,18 @@ Shared Git block for every agent definition (replaces any "commit only on reques
 ## 4. Tests: how to run
 - Editor: Unity CLI `run_tests` + `test_status` (see agent definition), or Window > General > Test Runner.
 - Batch (hook/CI): `Unity -batchmode -projectPath <path> -runTests -testPlatform EditMode -testResults <file>`; exact flags to be confirmed against the Unity docs when the hook is written.
-- Cross-validation fixtures are regenerated only by the owner running `python tools/crossval/<family>.py`; tests read the fixtures, never call Python.
-- AI tests use recorded responses. No API key is needed to run the suite.
+- Fast path (no Unity): `dotnet test server/Tutor.Core.Tests` runs the same Core tests; `dotnet test server/Tutor.Server.Tests` runs API tests. Both become available once SP-3 and the skeleton task are done (ADR-012).
+- Run the server locally: `dotnet run --project server/Tutor.Server` with mock-AI mode on; the WebGL build is copied into `server/Tutor.Server/wwwroot/` by the build script.
+- AI tests use recorded responses. No API key is needed to run any suite.
 
 ## 5. Where things go
 | Output | Location |
 |---|---|
 | Code | `Assets/_Project/Scripts/<Layer>/` |
-| Catalog / presentation data | `Assets/_Project/Data/...` |
-| Tests, fixtures | `Assets/_Project/Tests/...` |
-| Python reference scripts | `tools/crossval/` |
-| Server | `server/` |
+| Content (skills, bricks, facts) / presentation data | `Assets/_Project/Data/Content/`, `Assets/_Project/Data/Presentation/` |
+| Core tests, fixtures | `Assets/_Project/Tests/...` (also compiled by `server/Tutor.Core.Tests`) |
+| Server, server tests | `server/Tutor.Server/`, `server/Tutor.Server.Tests/` |
+| Shared-Core project (links Unity sources, no copy) | `server/Tutor.Core.Shared/` |
 | Builder scripts for bulk Editor work | `TestUnityProject/AgentScripts/` (outside `Assets/`) |
 
 ## 6. Report format
