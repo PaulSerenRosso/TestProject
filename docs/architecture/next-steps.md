@@ -1,56 +1,58 @@
 # Next Steps (architect handoff)
 
-Written: 2026-10-14, end of the first architecture session. For the tech-architect agent starting with no chat memory, and for the owner.
+Written: 2026-10-15, architecture session 2 (Lab Kit archived, Solo Tutor architecture written). For the tech-architect agent starting with no chat memory, and for the owner.
 
 ## State at end of session
-- Written in `docs/architecture/`: `architecture-overview.md`, ADR-001 to ADR-011, `server-api.md` (draft), `coding-standards.md`, `patterns.md`, `dev-workflow.md`.
+- Active architecture: `architecture-overview.md`, `decisions/ADR-001..014`, `server-api.md` (draft), plus the shared `coding-standards.md`, `patterns.md`, `dev-workflow.md` (rewritten for Solo Tutor).
+- Lab Kit is in `archive-2026-10-15-lab-kit/` (paused, not to implement).
 - Not written yet: `tech-specs/` (no PM stories exist), any PM document.
-- No Unity code, scene, package or setting was changed. Nothing is committed (`docs/architecture/` is untracked).
-- Existing throw-away code: `TestUnityProject/Assets/Scripts/` (`CubeMover.cs`, `NewAssembly.asmdef`). To be removed in the first Core task.
+- No Unity code, scene, package, setting or server code was changed. Existing throw-away code: `TestUnityProject/Assets/Scripts/` (`CubeMover.cs`, `NewAssembly.asmdef`), to be removed in the first Core task.
+- Work is on branch `docs/architecture-solo-tutor`; commit status is in the git log.
 
 ## Owner actions (the architect cannot do these)
 | # | Action | Why |
 |---|---|---|
-| 1 | Take 3 scope changes to the project-manager: PC preview in the authoring app, server (AI proxy, storage, memory), public repo including server code | Brainstorm said "no full desktop simulation"; PM docs do not exist yet |
-| 2 | Schedule spikes SP-1 (Unity LTS check), SP-2 (build profiles), SP-3 (Newtonsoft) before M1 | Unverified assumptions in the overview |
-| 3 | Choose the first experiment and education level (open question Q1) | Drives the brick list, rule families and SP-4 |
-| 4 | Git automation setup: permission rules in `.claude/settings.json`, protect `main` on GitHub, add secret/local-config patterns to `.gitignore` (root and `TestUnityProject/`) | See `dev-workflow.md` section 3 |
-| 5 | Create the private sibling folder `D:\Unity\TestProject-private` as its own git repo | ADR-006 |
-| 6 | Decide license, reviewer for rule cards (Q4, Q5) | Before going public |
+| 1 | Take the scope changes (overview section 13) to the project-manager | PM docs do not exist; Solo Tutor replaces Lab Kit and adds backend, WebGL, quota |
+| 2 | Answer open questions Q1-Q10 (overview section 12), especially Q3 (project name/prefix), Q5 (pseudonym), Q6 (invite codes), Q9 (who picks the skill) | Names and auth choices are expensive to change later |
+| 3 | Schedule spikes SP-1, SP-2, SP-3 before M1; SP-4 and SP-8 before M3 | Unverified assumptions in the overview |
+| 4 | Update `.claude/agents/unity-developer.md` and any agent text that names Lab Kit files or `LabKit` namespaces (outside the architect's write scope) | The agent must read the new docs; also add `dotnet test` to its verify step once `server/` exists |
+| 5 | Git automation: `.gitignore` additions (ADR-009), protect `main`, `tools/hooks/pre-push` (first Core/server task) | `dev-workflow.md` section 3 |
+| 6 | Create the private sibling `D:\Unity\TestProject-private` as its own git repo | ADR-009 |
+| 7 | Find a seconde teacher (or a teacher friend) to review bricks and facts (Q2) | Correctness trust (ADR-004, 014) |
+| 8 | Decide license (Q10) and Quest hosting approach (Q4) | Before going public / before M6 |
 
 ## Architect next session: order of work
-1. **Read first:** `docs/project/` (vision-and-scope, roadmap, backlog, specs, change-log) once the PM has written them; then re-read this folder.
-2. **Reconcile:** map provisional milestones M0-M5 in `architecture-overview.md` section 9 to PM IDs (E*, S*, T*). Update the overview where the PM scope differs.
-3. **Absorb spike results** (SP-1 to SP-3; SP-4 after the experiment is chosen):
-   - SP-1 outcome may change the Unity version and XR package versions in section 2.
-   - SP-2 outcome decides Build Profiles vs Editor-script builds (ADR-001).
-   - SP-3 outcome may change how `Core` references Newtonsoft (ADR-008).
-   - Replace every `UNVERIFIED` that a spike settled, with source and date.
-4. **Write tech-specs just in time** for the stories of M1 (and only M1), in `tech-specs/<ID>-<slug>.md`. Expected specs:
-   - Project skeleton: folders, asmdefs, remove `Assets/Scripts/`, test assembly.
-   - Core data model and JSON (experiment, catalog, `LabAction`, Author result), including the final schema.
-   - Simulation core and the first rule family (+ cross-validation fixture if SP-4 allows).
-   - Validator and headless Verifier.
-   - Rule-card lookup and card data format.
-   - Golden-experiment test harness and `MockAuthor`.
+1. **Read first:** `docs/project/` once the PM has written it, then re-read this folder.
+2. **Reconcile:** map provisional milestones M0-M7 (overview section 9) to PM IDs (E*, S*, T*). Update the overview where PM scope differs.
+3. **Absorb spike results** and replace every `UNVERIFIED` that a spike settled, with source and date. SP-3 may change how `Core` is shared (ADR-005, 011); SP-4 may change the WebGL rules (ADR-008); SP-7 fixes model and schema limits (ADR-003, 007); SP-8 decides UI technology (ADR-013).
+4. **Write tech-specs just in time**, M1 only, in `tech-specs/<ID>-<slug>.md`. Expected specs:
+   - Project skeleton: folders, asmdefs, remove `Assets/Scripts/`, `server/` solution with `Tutor.Core.Shared` and `Tutor.Core.Tests`, path helper for fixtures.
+   - Core content model and JSON (skills, bricks, facts, `ExerciseSpec`, final schema).
+   - `Pcg32`, `SeededComposer` and the first family (dilution) with property tests and golden seeds.
+   - `ExerciseSpecValidator` and `AnswerGuard`.
+   - `TutorPolicy`, `MasteryCalculator`, `Progression`, `QuotaPolicy`.
    - Pre-push hook script (tests + secret scan) and exact batch test flags.
-   Each spec follows the format in the architect definition: link to PM spec, classes and responsibilities, data and events, files (verified vs to create), patterns used, risks, test approach, out of scope.
-5. **Then M2 specs** (authoring UI screens, `ServerAuthor`, `IExperimentSource`), after M1 is done. Do not write M3-M5 specs yet.
-6. **Update `server-api.md`** to final when the server story starts (language and host from SP-6).
+5. **Then M2 specs** (server skeleton: auth, DB schema, attempts, summary, quota, mock-AI) after M1 is done. Do not write M3+ specs yet.
+6. **Update `server-api.md`** to final shapes as each endpoint's story starts.
 
 ## Decisions still open (do not decide silently)
 | Id | Question |
 |---|---|
-| Q1 | First experiment and education level |
-| Q2 | School vs museum framing |
-| Q3 | Server language and host (SP-6) |
-| Q4 | Rule-card reviewer |
-| Q5 | Public repo license |
-| SP-7 | Claude model, structured-output schema limits, cost per generation |
+| Q1 | Audience: portfolio only, or also teachers |
+| Q2 | Teacher reviewer for bricks and facts |
+| Q3 | Project name and code prefix (ASSUMPTION `Tutor`) |
+| Q4 | Hosting so a headset can reach the server (SP-6) |
+| Q5 | Pseudonym generated vs chosen (ASSUMPTION generated) |
+| Q6 | Invite-gated registration (ASSUMPTION yes) |
+| Q7 | Credit numbers (ASSUMPTION 20/day) |
+| Q8 | Gamification frame |
+| Q9 | Does the AI pick the next skill (ASSUMPTION no, code does) |
+| Q10 | Public repo license |
+| SP-7 | Claude model, structured-output limits, cost per exercise and answer |
 
 ## Reminders for the next session
 - Rules the architect follows: no edits outside `docs/architecture/`; PM backlog changes go through the owner; max 5 questions per turn, each with a recommendation; YAGNI challenge on every new abstraction.
-- Hard cap from ADR-002: 2-3 rule families in the first release.
-- The AI never writes rules, sources or review status (ADR-004).
-- Headset expected about 2026-10-28 (owner statement); M5 is the first milestone that needs it.
-- Worktree guard: this session wrote into the main checkout after the owner set `"worktree": {"bgIsolation": "none"}` in `.claude/settings.json`. Keep that in mind if the setting changes.
+- Hard caps: 4 exercise families in the first release (ADR-002); 2 AI repairs per generation (ADR-003).
+- The AI never writes answers, formulas, facts, sources or review status (ADR-003).
+- Headset expected about 2026-10-28 (owner statement); M6 is the first milestone that needs it.
+- Worktree guard: the owner set `"worktree": {"bgIsolation": "none"}` in `.claude/settings.json`; sessions write into the main checkout.
