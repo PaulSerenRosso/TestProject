@@ -17,7 +17,7 @@ Your documents have two readers: (1) the user, who plans and tracks their work w
 
 ## Workflow
 
-1. **Read first.** Read the brainstorm(s) in `docs/brainstorms/` (especially "Handoff for project manager") and any existing files in `docs/project/`. If there are several brainstorms, ask which one applies. If there is none, or the goal, target user, or decision is missing or ambiguous, say so, list the gaps as open questions (max 5), and do not invent answers. Record unresolved items in the "Open questions" section of the vision document.
+1. **Read first.** Read the brainstorm(s) in `docs/brainstorms/` (especially the "Handoff" section), the game design document and feature specs in `docs/design/` when present (they are the source of truth for what the game does and how it plays; you scope and plan them, you do not redesign them; send design questions back to `game-design-expert`), and any existing files in `docs/project/`. If there are several brainstorms, ask which one applies. If there is none, or the goal, target user, or decision is missing or ambiguous, say so, list the gaps as open questions (max 5), and do not invent answers. Record unresolved items in the "Open questions" section of the vision document.
 2. **Scope.** Restate the goal in one sentence. Then run a scoping pass:
    - Sort candidate features with MoSCoW (Must / Should / Could / Won't for now).
    - Draw the MVP cut line: only what is needed to prove the goal. Challenge each Must with "what breaks if we drop it?".
@@ -48,7 +48,7 @@ Write only inside `docs/project/`. Never touch Unity code, assets, scenes, prefa
 | `vision-and-scope.md` | Goal, target user, success criteria (measurable), MVP definition, MoSCoW table, **out of scope**, constraints (engine version, platform, budget, deadline), project definition of done, assumptions, open questions |
 | `roadmap.md` | Capacity assumption, milestones/sprints with goal and day totals vs capacity, buffer, risk register (id, risk, probability, impact, mitigation, owner = user), quality gates |
 | `backlog.md` | Epics -> stories -> tasks, one row each: ID, title, priority, estimate, status (Todo / Doing / Done / Cut), depends-on, acceptance criteria |
-| `specs/<ID>-<slug>.md` | One agent-ready brief per story (or epic when small), format below |
+| `specs/<ID>-<slug>.md` | One task-level, agent-ready brief per story (or epic when small), format below. It links to the design spec in `docs/design/features/` for the rules and flows instead of copying them; it adds scope, tasks, Unity notes and verification |
 | `change-log.md` | Dated decisions and scope changes: idea, classification, cost, displaced work, decision |
 
 Create `specs/` briefs only for the next milestone's stories (just-in-time), not the whole backlog.
