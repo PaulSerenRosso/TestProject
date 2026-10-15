@@ -21,6 +21,7 @@ Last update: 2026-10-15 (reorganized into projects/). Kept by the `chemistry-edu
 | [concept](projects/solo-tutor/concept.md) | Clarified concept, owner decisions, open decisions, bricks, demo slice | 2026-10-15 |
 | [initial-assessment-college](projects/solo-tutor/initial-assessment-college.md) | First honest assessment (written for collège): risks, ranked exercises, MVP | 2026-10-15 |
 | [target-level-analysis](projects/solo-tutor/target-level-analysis.md) | Collège vs seconde deep dive, programme content, exercise ideas, recommendation | 2026-10-15 |
+| [seconde-programme-and-exercises](projects/solo-tutor/seconde-programme-and-exercises.md) | Reference: seconde chemistry programme map, 17 real exercise shapes, question/exam formats, error tags, bricks and gamification hooks | 2026-10-15 |
 
 **lab-kit (earlier project)**
 | Note | Summary | Date |
@@ -41,6 +42,7 @@ Last update: 2026-10-15 (reorganized into projects/). Kept by the `chemistry-edu
 - Official hooks: seconde text asks for automatismes and work outside class; cycle 4 Éduscol resource recommends diagnostics and microscopic simulations. Cycle 4 order is the teacher's choice, so map bricks to skills, not school years.
 - Nuance: in the Éduscol example, pH starts in 5e and chemical mass conservation is 3e (earlier notes said pH 3e, mass 5e).
 - AI rules (press relay, official page not reachable): national AI framework 14 June 2025 allows supervised classroom generative AI from 4e; AI Pix training compulsory in 4e and 2de. Consent under 15 needs child plus parent (CNIL).
+- Seconde reference doc (2026-10-15): official text lists only g/L concentration; mol/L and molar mass are première, yet free sites label such exercises "2nde" (off-programme risk). Best-documented exercise family = prepare a solution (dilution factor, volume to take, glassware, step order). Real worksheets contain errors, so generate bricks from code. No full real DS found; exam formats are practice, not sourced. Written justification is the least automatable part (judgment).
 - Safety fact to keep: add acid slowly to water, never the reverse.
 
 ## 4. Open questions
@@ -53,3 +55,4 @@ Last update: 2026-10-15 (reorganized into projects/). Kept by the `chemistry-edu
 - Owner decisions (2026-10-15): target = seconde; VR and PC equal; cloud pseudonymous profile; no chat logs stored; test values only. Still open: audience (portfolio vs also teachers), teacher review of bricks, AI provider and cloud host.
 - Not found: national VR headset counts per level, at-home practice market size, seconde misconception papers (full text), school-managed Quest rules.
 - Usage of Labster / ChemCollective not verified by search.
+- Need real seconde material: 2-3 recent tests, one TP write-up, common wrong answers (balancing and limiting reagent exercises were images in sources).
